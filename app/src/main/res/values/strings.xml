@@ -9,4 +9,13 @@
     <string name="error_user_not_found">User or password incorrect, please try again.</string>
     <string name="error_server">Internal server error, please try again later</string>
     <string name="login_welcome">Welcome to HardCoding</string>
+    <string name="username">Username</string>
+    <string name="action_send_registration">Send</string>
+    <string name="cancel">Cancel</string>
+    <string name="confirm_password">Confirm password</string>
+    <string name="error_invalid_email">Please enter a valid email</string>
+    <string name="error_pass_short">Password must have 4 characters at least</string>
+    <string name="error_pass_empty">Password cannot be empty</string>
+    <string name="error_username_short">El nombre de usuario debe ser de 3 caracteres por lo menos</string>
+    <string name="error_pass_must_match">La contraseña y la confirmacion deben coincidir</string>
 </resources>

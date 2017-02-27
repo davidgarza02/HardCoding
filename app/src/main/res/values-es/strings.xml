@@ -8,4 +8,15 @@
     <string name="action_sign_in">Registrate</string>
     <string name="error_user_not_found">Usuario no valido, por favor intenta de nuevo.</string>
     <string name="error_server">Error en servidor, por favor intenta de nuevo mas tarde.</string>
+    <string name="login_welcome">Bienvenido a HardCoding usuario registrado</string>
+    <string name="username">Nombre de usuario</string>
+    <string name="action_send_registration">Enviar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="confirm_password">Confirmar contraseña</string>
+    <string name="error_invalid_email">El correo electronico no es una direccion valida</string>
+    <string name="error_pass_short">Contraseña debe ser mayor a 4 caracteres</string>
+    <string name="error_pass_empty">Contraseña no puede estar vacia</string>
+    <string name="error_username_short">El nombre de usuario debe ser de 3 caracteres por lo menos</string>
+    <string name="error_pass_must_match">La contraseña y la confirmacion deben coincidir</string>
+
 </resources>
