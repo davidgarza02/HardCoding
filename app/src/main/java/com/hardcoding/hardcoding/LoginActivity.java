@@ -1,5 +1,6 @@
 package com.hardcoding.hardcoding;
 
+import android.content.Intent;
 import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
@@ -17,6 +18,7 @@ import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.HashMap;
 
@@ -32,7 +34,6 @@ import butterknife.OnClick;
 public class LoginActivity extends AppCompatActivity{
     @BindString(R.string.error_user_not_found) String strErrorUserNotFound;
     @BindString(R.string.error_server) String strServerError;
-    @BindString(R.string.login_welcome) String strLoginWelcome;
     @BindString(R.string.error_invalid_email) String strErrorInvalidEmail;
     @BindString(R.string.error_pass_short) String strErrorPasswordShort;
     @BindString(R.string.error_pass_empty) String strErrorPasswordEmpty;
@@ -68,14 +69,20 @@ public class LoginActivity extends AppCompatActivity{
         session = new SessionManager(getApplicationContext());
     }
 
-    private void showLoading(){
+    private void showLoading(boolean login){
         progressBar.setVisibility(View.VISIBLE);
-        loginContainer.setVisibility(View.INVISIBLE);
+        if (login)
+            loginContainer.setVisibility(View.INVISIBLE);
+        else
+            signinContainer.setVisibility(View.INVISIBLE);
     }
 
-    private void hideLoading(){
+    private void hideLoading(boolean login){
         progressBar.setVisibility(View.GONE);
-        loginContainer.setVisibility(View.VISIBLE);
+        if (login)
+            loginContainer.setVisibility(View.VISIBLE);
+        else
+            signinContainer.setVisibility(View.VISIBLE);
     }
 
     private void toogleLoginSignIn(){
@@ -83,9 +90,15 @@ public class LoginActivity extends AppCompatActivity{
         if (showLogin){
             loginContainer.setVisibility(View.VISIBLE);
             signinContainer.setVisibility(View.GONE);
+            etEmail.setText("");
+            etPassword.setText("");
         }else{
             loginContainer.setVisibility(View.GONE);
             signinContainer.setVisibility(View.VISIBLE);
+            etEmailSi.setText("");
+            etPasswordSi.setText("");
+            etConfirmationSi.setText("");
+            etPasswordSi.setText("");
         }
     }
 
@@ -96,7 +109,7 @@ public class LoginActivity extends AppCompatActivity{
         String password = etPasswordSi.getText().toString().trim();
         String passwordConfirmation = etConfirmationSi.getText().toString().trim();
 
-        showLoading();
+        showLoading(false);
         boolean error = false;
         if (username.length() < 3){
             ilUsernameSi.setError(strUsernameShort);
@@ -133,35 +146,38 @@ public class LoginActivity extends AppCompatActivity{
 
         if (!error) {
             HashMap<String, String> params = new HashMap<>();
+            params.put(RequestSender.PARAMS_USERNAME, username);
             params.put(RequestSender.PARAMS_EMAIL, email);
             params.put(RequestSender.PARAMS_PASSWORD, password);
-//            RequestSender.make("LoginActivity", RequestSender.LOGIN_SERVICE, params, new Response.Listener<JSONArray>() {
-//                @Override
-//                public void onResponse(JSONArray response) {
+            RequestSender.make("LoginActivity", RequestSender.REGISTER_SERVICE, params, new Response.Listener<JSONObject>() {
+                @Override
+                public void onResponse(JSONObject response) {
 //                    Hard.d("Response:" + response.toString());
-//                    try {
-//                        String loginMessage;
-//                        if (response.isNull(0)) {
-//                            loginMessage = strErrorUserNotFound;
-//                        } else {
-//                            LoginResponse loginResponse = gson.fromJson(response.getJSONObject(0).toString(), LoginResponse.class);
-//                            session.createLoginSession(loginResponse);
-//                            loginMessage = strLoginWelcome;
-//                        }
-//                        Snackbar.make(etEmail, loginMessage, Snackbar.LENGTH_SHORT).show();
-//                        hideLoading();
-//
-//                    } catch (JSONException e) {
-//                        e.printStackTrace();
-//                    }
-//                }
-//            }, new Response.ErrorListener() {
-//                @Override
-//                public void onErrorResponse(VolleyError error) {
-//                    Snackbar.make(etEmail, strServerError, Snackbar.LENGTH_SHORT).show();
-//                    hideLoading();
-//                }
-//            });
+                    String registerMessage;
+                    try {
+                        if (response.get("user") != JSONObject.NULL) {
+                            LoginResponse loginResponse = gson.fromJson(response.toString(), LoginResponse.class);
+                            session.createLoginSession(loginResponse);
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        } else {
+                            registerMessage = strServerError;
+                            Snackbar.make(etEmail, registerMessage, Snackbar.LENGTH_SHORT).show();
+                        }
+                    } catch (JSONException e) {
+                        e.printStackTrace();
+                    }
+                    hideLoading(false);
+                }
+            }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Snackbar.make(etEmail, strServerError, Snackbar.LENGTH_SHORT).show();
+                    hideLoading(false);
+                }
+            });
+        }else{
+            hideLoading(false);
         }
     }
 
@@ -172,12 +188,13 @@ public class LoginActivity extends AppCompatActivity{
 
     @OnClick(R.id.btn_sign_in)
     void buttonSignin(){
-        toogleLoginSignIn();
+        if (showLogin)
+            toogleLoginSignIn();
     }
 
     @OnClick(R.id.btn_login)
     void buttonLogin(){
-        showLoading();
+        showLoading(true);
         String email = etEmail.getText().toString().trim();
         String password = etPassword.getText().toString().trim();
         boolean error = false;
@@ -204,36 +221,36 @@ public class LoginActivity extends AppCompatActivity{
             HashMap<String, String> params = new HashMap<>();
             params.put(RequestSender.PARAMS_EMAIL, email);
             params.put(RequestSender.PARAMS_PASSWORD, password);
-            RequestSender.make("LoginActivity", RequestSender.LOGIN_SERVICE, params, new Response.Listener<JSONArray>() {
+            RequestSender.make("LoginActivity", RequestSender.LOGIN_SERVICE, params, new Response.Listener<JSONObject>() {
                 @Override
-                public void onResponse(JSONArray response) {
+                public void onResponse(JSONObject response) {
                     Hard.d("Response:" + response.toString());
+                    String loginMessage;
                     try {
-                        String loginMessage;
-                        if (response.isNull(0)) {
-                            loginMessage = strErrorUserNotFound;
-                        } else {
-                            LoginResponse loginResponse = gson.fromJson(response.getJSONObject(0).toString(), LoginResponse.class);
+                        if (response.get("user") != JSONObject.NULL) {
+                            LoginResponse loginResponse = gson.fromJson(response.toString(), LoginResponse.class);
                             session.createLoginSession(loginResponse);
-                            loginMessage = strLoginWelcome;
+                            Intent intent = new Intent(LoginActivity.this, MainActivity.class);
+                            startActivity(intent);
+                        } else {
+                            loginMessage = strErrorUserNotFound;
+                            Snackbar.make(etEmail, loginMessage, Snackbar.LENGTH_SHORT).show();
                         }
-                        Snackbar.make(etEmail, loginMessage, Snackbar.LENGTH_SHORT).show();
-                        hideLoading();
-
                     } catch (JSONException e) {
                         e.printStackTrace();
                     }
+                    hideLoading(true);
                 }
             }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
                     Hard.d("Error:" + error.toString());
                     Snackbar.make(etEmail, strServerError, Snackbar.LENGTH_SHORT).show();
-                    hideLoading();
+                    hideLoading(true);
                 }
             });
         }else{
-            hideLoading();
+            hideLoading(true);
         }
 
     }
@@ -242,5 +259,12 @@ public class LoginActivity extends AppCompatActivity{
         return !TextUtils.isEmpty(target) && android.util.Patterns.EMAIL_ADDRESS.matcher(target).matches();
     }
 
+    @Override
+    public void onBackPressed() {
+        if (showLogin)
+            super.onBackPressed();
+        else
+            toogleLoginSignIn();
+    }
 }
 

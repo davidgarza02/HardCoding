@@ -18,5 +18,13 @@
     <string name="error_pass_empty">Contraseña no puede estar vacia</string>
     <string name="error_username_short">El nombre de usuario debe ser de 3 caracteres por lo menos</string>
     <string name="error_pass_must_match">La contraseña y la confirmacion deben coincidir</string>
+    <string name="tokens_left">Tokens restantes:</string>
+    <string name="action_log_out">Salir</string>
+    <string name="buy">Buy</string>
+    <string name="error_no_tokens">Lo sentimos, no tienes tokens suficientes.</string>
+    <string name="go_to_lesson">Ver</string>
+    <string name="message_buy_confirmation">¿Estas seguro que quieres comprar esta leccion?</string>
+    <string name="title_buy_confirmation">¿Comprar esta leccion?</string>
+    <string name="tokens_sufix">%d tokens</string>
 
 </resources>

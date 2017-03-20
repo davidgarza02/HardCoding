@@ -22,9 +22,15 @@ public class RequestSender {
     public static final String PARAMS_EMAIL = "email";
     public static final String PARAMS_PASSWORD = "password";
 
-    public static void make(String tag, String service, HashMap<String,String> params, Response.Listener<JSONArray> responseListener, Response.ErrorListener errorListener){
-        Hard.d("Params:" + params.toString());
-        AppController.getInstance().addToRequestQueue(new CustomJsonArrayRequest(Request.Method.POST, BASE_URL + service, new JSONObject(params), responseListener, errorListener),tag);
+    public static final String REGISTER_SERVICE = "register.php";
+    public static final String PARAMS_USERNAME = "username";
+
+    public static final String LESSONS_SERVICE = "getlessons.php";
+    public static final String BUY_SERVICE = "buylesson.php";
+
+    public static void make(String tag, String service, HashMap<String,String> params, Response.Listener<JSONObject> responseListener, Response.ErrorListener errorListener){
+//        Hard.d("Params:" + params.toString());
+        AppController.getInstance().addToRequestQueue(new JsonObjectRequest(Request.Method.POST, BASE_URL + service, new JSONObject(params), responseListener, errorListener),tag);
     }
 
 }

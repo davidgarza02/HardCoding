@@ -1,27 +1,19 @@
 package com.hardcoding.hardcoding;
 
+import java.util.List;
+
 /**
  * Created by davidgarza on 27/02/17.
  */
 public class LoginResponse {
-    private int id;
-    private String username;
-    private String email;
-    private int tokens;
+    private User user;
+    private List<Transaction> transactions;
 
-    public int getId() {
-        return id;
+    public User getUser() {
+        return user;
     }
 
-    public String getUsername() {
-        return username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public int getTokens() {
-        return tokens;
+    public List<Transaction> getTransactions() {
+        return transactions;
     }
 }

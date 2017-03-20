@@ -41,8 +41,11 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         card_view:cardCornerRadius="4dp"
-        android:layout_below="@id/hc_logo"
-        android:layout_margin="@dimen/activity_horizontal_margin">
+        android:layout_marginTop="16dp"
+        android:layout_below="@+id/hc_logo"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp">
 
         <RelativeLayout
             android:layout_width="match_parent"

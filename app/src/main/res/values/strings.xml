@@ -16,6 +16,14 @@
     <string name="error_invalid_email">Please enter a valid email</string>
     <string name="error_pass_short">Password must have 4 characters at least</string>
     <string name="error_pass_empty">Password cannot be empty</string>
-    <string name="error_username_short">El nombre de usuario debe ser de 3 caracteres por lo menos</string>
-    <string name="error_pass_must_match">La contraseña y la confirmacion deben coincidir</string>
+    <string name="error_username_short">Username must have 3 characters at least</string>
+    <string name="error_pass_must_match">Password and confirmation must match</string>
+    <string name="tokens_left">Tokens left:</string>
+    <string name="buy">Comprar</string>
+    <string name="tokens_sufix">%d tokens</string>
+    <string name="title_buy_confirmation">Buy this lesson?</string>
+    <string name="message_buy_confirmation">Are you sure you want to buy this lesson?</string>
+    <string name="go_to_lesson">Go</string>
+    <string name="error_no_tokens">Sorry, you have not enough tokens.</string>
+    <string name="action_log_out">Log out</string>
 </resources>
